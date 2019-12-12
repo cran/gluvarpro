@@ -1,11 +1,11 @@
 \name{bgigvp}
 \alias{bgigvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{bgigvp (blood glucose index).
+\title{blood glucose index
 %%  ~~function to do ... ~~
 }
 \description{
-Blood glucose index is a measure of glycemic risk based on the same normalizing transformation as the \emph{adrrgvp} measure but is specifically designed to be sensitive to hypoglycemia (\emph{lbgi}) and hyperglycemia (\emph{hbgi}), respectively, and to have zero correlation with their opposite ranges on the blood glucose scale.
+Blood glucose index is a measure of glycemic risk based on the same normalizing transformation as the \emph{adrrgvp} measure but is specifically designed to be sensitive to hypoglycemia (\emph{lbgi}) and hyperglycemia (\emph{hbgi}), respectively, and to have zero correlation with their opposite ranges on the blood glucose scale. The \emph{lbgi} and \emph{hbgi} are scored based on risk categories: Low risk, [0,2.5); moderate risk, [2.5,5); and high risk, 5 and above.
 }
 %
 \usage{

@@ -1,7 +1,7 @@
 \name{sdgvp}
 \alias{sdgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{sdgvp (standard deviation).
+\title{standard deviation
 %%  ~~function to do ... ~~
 }
 \description{

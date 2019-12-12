@@ -1,32 +1,32 @@
-\name{plotgvp}
-\alias{plotgvp}
+\name{mplotgvp}
+\alias{mplotgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{plot glucose values and glucose variability measures
+\title{plot multiple glucose variability measures
 %%  ~~function to do ... ~~
 }
 \description{
-Generic function for plotting given data points.
+Function for plotting given data points arranging multiple grobs on a draw.
 }
 %
 \usage{
-plotgvp(x, col = "one", var = "glucose")
+mplotgvp(x, col = "one", var = "auc")
 }
 %
 \arguments{
 \item{x}{
-Data-set with data frame format containing three columns:
+Data-set with data frame format containing five or six columns:
 
 date: date of the observation with format \emph{yyyy/mm/dd}.
 
 time: time of the observation with 24 hour format \emph{hh:mm:ss}.
 
-glucose or variability measure: glucose value [mg/dl] or glucose variability measure.
+variability measure: glucose variability measure.
 }
 \item{col}{
 Color for plotting data points. If data-set contains more than one day, it can be selected different colors (\emph{multiple}) for each day of data or one color (\emph{one}). Default value is \emph{one} color.
 }
 \item{var}{
-Variable for plotting. Permitted values are \emph{glucose}, \emph{adrr}, \emph{lauc}, \emph{hauc}, \emph{auc}, \emph{lbgi}, \emph{hbgi}, \emph{bgi}, \emph{conga}, \emph{cv}, \emph{iqr}, \emph{ji}, \emph{li}, \emph{ge}, \emph{lmage}, \emph{hmage}, \emph{mage}, \emph{mean}, \emph{mv}, \emph{sd}, \emph{lpstr}, \emph{hpstr}, \emph{npstr} and \emph{pstr}. Default value is \emph{glucose}.
+Variable for multiple plotting. Permitted values are \emph{auc}, \emph{bgi}, \emph{mage}, and \emph{pstr}. Default value is \emph{auc}.
 }
 }
 %
@@ -41,5 +41,6 @@ Sergio Contador.
 %
 \examples{
 data("datagvp1")
-plotgvp(datagvp1)
+x <- aucgvp(datagvp1)
+mplotgvp(x)
 }

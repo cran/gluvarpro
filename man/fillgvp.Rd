@@ -1,7 +1,7 @@
 \name{fillgvp}
 \alias{fillgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{fillgvp (fill glucose values from continuous glucose monitoring).
+\title{fill glucose values from continuous glucose monitoring
 %%  ~~function to do ... ~~
 }
 \description{

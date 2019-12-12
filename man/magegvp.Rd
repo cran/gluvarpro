@@ -1,7 +1,7 @@
 \name{magegvp}
 \alias{magegvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{magegvp (mean amplitude of glycemic excursions).
+\title{mean amplitude of glycemic excursions
 %%  ~~function to do ... ~~
 }
 \description{

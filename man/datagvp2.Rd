@@ -1,7 +1,7 @@
 \name{datagvp2}
 \alias{datagvp2}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{data-set from Medtronic continuous glucose monitoring.
+\title{data-set from Medtronic continuous glucose monitoring
 %%  ~~function to do ... ~~
 }
 \description{

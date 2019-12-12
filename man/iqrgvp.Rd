@@ -1,7 +1,7 @@
 \name{iqrgvp}
 \alias{iqrgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{igrgvp (inter-quartile range).
+\title{inter-quartile range
 %%  ~~function to do ... ~~
 }
 \description{

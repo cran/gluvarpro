@@ -1,7 +1,7 @@
 \name{jigvp}
 \alias{jigvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{jigvp (j index).
+\title{j index
 %%  ~~function to do ... ~~
 }
 \description{

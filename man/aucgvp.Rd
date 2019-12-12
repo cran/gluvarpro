@@ -1,7 +1,7 @@
 \name{aucgvp}
 \alias{aucgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{aucgvp (area under curve).
+\title{area under curve
 %%  ~~function to do ... ~~
 }
 \description{

@@ -146,29 +146,25 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
                         g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
                                 theme_classic() +
-                                labs(x = "TIME [day]", y = ylabel)  +
+                                labs(x = "TIME [days]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
                                 theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
                                 scale_y_continuous(breaks= pretty_breaks())
-
-                        g
 
                 } else if(col == "multiple") {
 
                         g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = factor(x$serie)) +
                                 theme_classic() +
-                                labs(x = "TIME [day]", y = ylabel)  +
+                                labs(x = "TIME [days]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
                                 theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
                                 scale_y_continuous(breaks= pretty_breaks())
-
-                        g
 
                 }
 
@@ -203,15 +199,13 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
                         g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
                                 theme_classic() +
-                                labs(x = "TIME [hour]", y = ylabel)  +
+                                labs(x = "TIME [hours]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
                                 theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
                                 scale_y_continuous(breaks= pretty_breaks())
-
-                        g
 
                 } else {
 
@@ -242,7 +236,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
                         g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
                                 theme_classic() +
-                                labs(x = "TIME [min]", y = ylabel)  +
+                                labs(x = "TIME [minutes]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
                                 theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
@@ -250,11 +244,11 @@ plotgvp <- function(x, col = "one", var = "glucose") {
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
                                 scale_y_continuous(breaks= pretty_breaks())
 
-                        g
-
                 }
 
         }
+
+        suppressWarnings(plot(g))
 
 }
 

@@ -1,7 +1,7 @@
 \name{congagvp}
 \alias{congagvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{congagvp (continuous overall net glycemic action).
+\title{continuous overall net glycemic action
 %%  ~~function to do ... ~~
 }
 \description{

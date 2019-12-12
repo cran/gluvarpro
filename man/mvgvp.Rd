@@ -1,7 +1,7 @@
 \name{mvgvp}
 \alias{mvgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{mvgvp (m value).
+\title{m value
 %%  ~~function to do ... ~~
 }
 \description{

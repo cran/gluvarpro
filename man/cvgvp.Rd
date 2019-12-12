@@ -1,7 +1,7 @@
 \name{cvgvp}
 \alias{cvgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{cvgvp (percentage coefficient of variation).
+\title{percentage coefficient of variation
 %%  ~~function to do ... ~~
 }
 \description{

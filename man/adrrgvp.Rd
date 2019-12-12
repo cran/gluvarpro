@@ -1,11 +1,11 @@
 \name{adrrgvp}
 \alias{adrrgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{adrrgvp (average daily risk range).
+\title{average daily risk range
 %%  ~~function to do ... ~~
 }
 \description{
-Average daily risk range is a measure of glycemic risk that is based on risk values obtained from glucose levels that are mathematically transformed to give equal weight to hyperglycemic and hypoglycemic excursions. The \emph{adrrgvp} is scored based on risk categories: Low risk, 0–19; moderate risk, 20–40; and high risk, 40 and above.
+Average daily risk range is a measure of glycemic risk that is based on risk values obtained from glucose levels that are mathematically transformed to give equal weight to hyperglycemic and hypoglycemic excursions. The \emph{adrrgvp} is scored based on risk categories: Low risk, [0,20); moderate risk, [20,40); and high risk, 40 and above.
 }
 %
 \usage{

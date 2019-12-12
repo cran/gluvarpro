@@ -1,7 +1,7 @@
 \name{datagvp3}
 \alias{datagvp3}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{data-set from Freestyle Libre continuous glucose monitoring.
+\title{data-set from Freestyle Libre continuous glucose monitoring
 %%  ~~function to do ... ~~
 }
 \description{

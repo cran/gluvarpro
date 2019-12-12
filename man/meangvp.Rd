@@ -1,7 +1,7 @@
 \name{meangvp}
 \alias{meangvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{meangvp (arithmetic mean).
+\title{arithmetic mean
 %%  ~~function to do ... ~~
 }
 \description{

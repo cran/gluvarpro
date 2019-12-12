@@ -1,7 +1,7 @@
 \name{ligvp}
 \alias{ligvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ligvp (lability index).
+\title{lability index
 %%  ~~function to do ... ~~
 }
 \description{

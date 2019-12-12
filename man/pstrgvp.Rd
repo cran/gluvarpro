@@ -1,7 +1,7 @@
 \name{pstrgvp}
 \alias{pstrgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{pstrgvp (percentage spent below/above the target range).
+\title{percentage spent below/above the target range
 %%  ~~function to do ... ~~
 }
 \description{
