@@ -16,17 +16,17 @@ avggvp(x, var = "glucose", sd = FALSE)
 \item{x}{
 Data-set with data frame format containing three columns:
 
-date: date of the observation with format \emph{yyyy/mm/dd}.
+  date: date of the observation with format \emph{yyyy/mm/dd}.
 
-time: time of the observation with 24 hour format \emph{hh:mm:ss}.
+  time: time of the observation with 24 hour format \emph{hh:mm:ss}.
 
-glucose or variability measure: glucose value [mg/dl] or glucose variability measure.
+  glucose or variability measure: glucose value or glucose variability measure.
 }
 \item{var}{
-Variable for calculate the mean value and the standard deviation. Permitted values are \emph{glucose}, \emph{adrr}, \emph{lauc}, \emph{hauc}, \emph{auc}, \emph{lbgi}, \emph{hbgi}, \emph{bgi}, \emph{conga}, \emph{cv}, \emph{iqr}, \emph{ji}, \emph{li}, \emph{ge}, \emph{lmage}, \emph{hmage}, \emph{mage}, \emph{mean}, \emph{mv}, \emph{sd}, \emph{lpstr}, \emph{hpstr}, \emph{npstr} and \emph{pstr}. Default value is \emph{glucose}.
+Character value with variable to calculate the mean value and the standard deviation. Permitted values are \emph{glucose}, \emph{adrr}, \emph{lauc}, \emph{hauc}, \emph{auc}, \emph{lbgi}, \emph{hbgi}, \emph{bgi}, \emph{conga}, \emph{cv}, \emph{iqr}, \emph{ji}, \emph{li}, \emph{ge}, \emph{lmage}, \emph{hmage}, \emph{mage}, \emph{mean}, \emph{mv}, \emph{sd}, \emph{lpstr}, \emph{hpstr}, \emph{npstr} and \emph{pstr}. Default value is \emph{glucose}.
 }
 \item{sd}{
-Logical value for calculate the standard deviation. Default value is FALSE.
+Logical value to calculate the standard deviation. Default value is FALSE.
 }
 }
 %

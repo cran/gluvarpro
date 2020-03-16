@@ -1,5 +1,5 @@
 
-congagvp <- function(x, t = 24, ts = 15, h = 1) {
+congagvp <- function(x, t = 24, ts = 5, h = 1) {
 
 
         if(dim(x)[1] == 0) {

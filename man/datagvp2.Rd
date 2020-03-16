@@ -1,11 +1,11 @@
 \name{datagvp2}
 \alias{datagvp2}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{data-set from Medtronic continuous glucose monitoring
+\title{clean data-set from Medtronic continuous glucose monitoring
 %%  ~~function to do ... ~~
 }
 \description{
-Data from type 1 diabetic patient acquired through Medtronic continuous glucose monitoring.
+Data preprocessed from type 1 diabetic patient acquired through Medtronic 530-G with Enlite continuous glucose monitoring.
 }
 %
 \usage{

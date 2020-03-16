@@ -1,0 +1,492 @@
+
+plotmgvp <- function(x, col = FALSE, var = "auc") {
+
+
+        if(dim(x)[1] == 0) {
+
+                stop("Dimension of data-set must be higher than 0.")
+
+        }
+
+        if(var == "auc") {
+
+                var <- c("lauc", "hauc", "auc")
+
+        } else if(var == "bgi") {
+
+                var <- c("lbgi", "hbgi", "bgi")
+
+        } else if(var == "mage") {
+
+                var <- c("ge", "lmage", "hmage", "mage")
+
+        } else if(var == "pstr") {
+
+                var <- c("lpstr", "hpstr", "npstr", "pstr")
+
+        }
+
+        names <- c("date", "time", var)
+        names <- match(names, names(x))
+        if(any(is.na(names))) {
+
+                stop(paste("Names of data-set must be date, time and
+                           one of these groups: c(lauc, hauc, auc), c(lbgi, hbgi, bgi),
+                           c(ge, lmage, hmage, mage), or c(lpstr, hpstr, npstr, pstr)."))
+
+        }
+
+        if(any(is.na(as.character(x$date))) || any(is.na(as.character(x$time)))) {
+
+                stop("Variables date and time must be non-NA values.")
+
+        }
+
+        date.time <- as.POSIXct(paste(as.character(x$date), as.character(x$time)), format = "%Y/%m/%d %H:%M:%S")
+        position <- match(var, names(x))
+        variable <- c()
+        for(i in 1:length(var)){
+
+                variable <- c(variable, !is.numeric(x[,position[3]]))
+
+        }
+
+        if(any(is.na(date.time))) {
+
+                stop("Variable date and time must have yyyy/mm/dd and hh:mm:ss format.")
+
+        }
+
+        if(all(variable)) {
+
+                stop("Variable must be numeric.")
+
+        }
+
+        if(!is.logical(col)){
+
+                stop("col must be logical.")
+
+        }
+
+        if(col != FALSE && col != TRUE) {
+
+                stop("col must be FALSE or TRUE.")
+
+        }
+
+        suppressWarnings(if(all(var != c("lauc", "hauc", "auc")) &&
+                            all(var != c("lbgi", "hbgi", "bgi")) &&
+                            all(var != c("lmage", "hmage", "ge", "mage")) &&
+                            all(var != c("lpstr", "hpstr", "npstr", "pstr"))) {
+
+                stop("var must be auc, bgi, mage or pstr.")
+
+        })
+
+
+
+
+        xt <- data.frame(matrix(nrow = 24, ncol = 6))
+        names(xt) <- c("hour", "4h", "6h", "8h", "12h", "24h")
+        xt$hour <- 0:23
+        xt$"4h" <- c(rep(1, 4), rep(2, 4), rep(3, 4), rep(4, 4), rep(5, 4), rep(6, 4))
+        xt$"6h" <- c(rep(1, 6), rep(2, 6), rep(3, 6), rep(4, 6))
+        xt$"8h" <- c(rep(1, 8), rep(2, 8), rep(3, 8))
+        xt$"12h" <- c(rep(1, 12), rep(2, 12))
+        xt$"24h" <- 1
+
+        t <- 24
+        t <- paste(t, "h", sep = "")
+        x$serie <- NA
+
+        colors <- c("#80B1D3", "#B3DE69", "#FB8072", "#B3B3B3", "#8DD3C7", "#FDB462", "#BEBADA", "#1F78B4", "#BF812D", "#BC80BD", "#D53E4F")
+        x$color <- NA
+
+        date <- levels(as.factor(as.character(x$date)))
+        j <- 1
+        for(i in 1:length(date)) {
+
+                position <- which(x$date == date[i])
+                x$serie[position] <- as.numeric(i)
+                x$color[position] <- colors[j]
+
+                if(j == length(colors)) {
+
+                        j <- 1
+
+                } else {
+
+                        j <- j + 1
+
+                }
+
+        }
+
+        hour <- separate(x, time, into = c("hour", "minutes", "seconds"), ":")
+        hour <- as.numeric(hour$hour)
+        for(i in 1:length(hour)) {
+
+                for(j in 0:23) {
+
+                        if(hour[i] == j) {
+
+                                x$serie[i] <- paste(x$serie[i], ".", xt[j + 1, t], sep = "")
+
+                        }
+
+                }
+
+        }
+
+        if(length(var) == 3) {
+
+                glist <- list()
+
+                y.plot.min <- floor(min(x[, var]))-floor(min(x[, var]))%%10
+                y.plot.max <- floor(max(x[, var]))+floor(min(x[, var]))%%10
+
+                for(k in 1:3) {
+
+                        variable <- c("glucose", "adrr", "lauc", "hauc", "auc", "lbgi", "hbgi", "bgi",
+                                      "conga", "cv", "iqr", "ji", "li", "ge", "lmage", "hmage", "mage",
+                                      "mean", "mv", "sd", "lpstr", "hpstr", "npstr", "pstr")
+                        position <- which(variable == var[k])
+                        ylabel <- c("GLUCOSE [mg/dl]", "ADRR", "LAUC [mg/dl]", "HAUC [mg/dl]", "AUC [mg/dl]",
+                                    "LBGI", "HBGI", "BGI",
+                                    "CONGA [mg/dl]", "CV [mg/dl]", "IQR [mg/dl]", "JI [(mg/dl)^2]", "LI [(mg/dl)^2/h]",
+                                    "GE", "LMAGE [mg/dl]", "HMAGE [mg/dl]", "MAGE [mg/dl]",
+                                    "MEAN [mg/dl]", "MV", "SD [mg/dl]",
+                                    "LPSTR [%]", "HPSTR [%]", "NPSTR [%]", "PSTR [%]")
+                        ylabel <- ylabel[position]
+
+                        u <- as.numeric(unclass(date.time))
+                        u <- u - min(u)
+                        y <- as.numeric(unclass(as.Date(as.character(x$date), format = "%Y/%m/%d")))
+                        y <- as.numeric(levels(as.factor(as.character(y))))
+                        y <- y - min(y)
+                        y <- 0:max(y)
+
+                        if(length(y) > 1) {
+
+                                position <- 0:round(max(u) / (60 * 60 * 24))
+
+                                z <- list()
+                                for(i in 1:length(position)) {
+
+                                        z[i] <- list(position[i])
+                                }
+
+                                names(z) <- 60 * 60 * 24 * position
+
+                                if(length(z) > 20) {
+
+                                        max <- length(z) + (10 - length(z)%%20)
+                                        position <- abs(floor(- length(z)/20))
+                                        if(position %% 2 != 0) {
+
+                                                position <- position + 1
+                                        }
+
+                                        position <- round(seq(1, max, position))
+
+                                }
+
+                                z <- z[position]
+
+                                if(col == FALSE) {
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                                                theme_classic() +
+                                                labs(x = "TIME [days]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                } else {
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = factor(x$color)) +
+                                                theme_classic() +
+                                                labs(x = "TIME [days]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+                                }
+
+                        } else {
+
+                                if(max(u) >= (60 * 60)) {
+
+                                        position <- 0:round(max(u) / (60 * 60))
+
+                                        z <- list()
+                                        for(i in 1:length(position)) {
+
+                                                z[i] <- list(position[i])
+                                        }
+
+                                        names(z) <- 60 * 60 * position
+
+                                        if(length(z) > 20) {
+
+                                                max <- length(z) + (10 - length(z)%%20)
+                                                position <- abs(floor(- length(z)/20))
+                                                if(position %% 2 != 0) {
+
+                                                        position <- position + 1
+                                                }
+
+                                                position <- round(seq(1, max, position))
+
+                                        }
+
+                                        z <- z[position]
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                                                theme_classic() +
+                                                labs(x = "TIME [hours]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                } else {
+
+                                        position <- 0:round(max(u) / (60))
+
+                                        z <- list()
+                                        for(i in 1:length(position)) {
+
+                                                z[i] <- list(position[i])
+                                        }
+
+                                        names(z) <- 60 * position
+
+                                        if(length(z) > 20) {
+
+                                                max <- length(z) + (10 - length(z)%%20)
+                                                position <- abs(floor(- length(z)/20))
+                                                if(position %% 2 != 0) {
+
+                                                        position <- position + 1
+                                                }
+
+                                                position <- round(seq(1, max, position))
+
+                                        }
+
+                                        z <- z[position]
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                                                theme_classic() +
+                                                labs(x = "TIME [minutes]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                }
+
+                        }
+
+                }
+
+                g <- grid.arrange(grid.arrange(glist[[1]], glist[[2]], ncol = 2), grid.arrange(glist[[3]]))
+
+        } else if(length(var) == 4) {
+
+                glist <- list()
+
+                y.plot.min <- floor(min(x[, var]))-1
+                y.plot.max <- floor(max(x[, var]))+3
+
+                for(k in 1:4) {
+
+                        variable <- c("glucose", "adrr", "lauc", "hauc", "auc", "lbgi", "hbgi", "bgi",
+                                      "conga", "cv", "iqr", "ji", "li", "ge", "lmage", "hmage", "mage",
+                                      "mean", "mv", "sd", "lpstr", "hpstr", "npstr", "pstr")
+                        position <- which(variable == var[k])
+                        ylabel <- c("GLUCOSE [mg/dl]", "ADRR", "LAUC [mg/dl]", "HAUC [mg/dl]", "AUC [mg/dl]",
+                                    "LBGI", "HBGI", "BGI",
+                                    "CONGA [mg/dl]", "CV [mg/dl]", "IQR [mg/dl]", "JI [(mg/dl)^2]", "LI [(mg/dl)^2/h]",
+                                    "GE", "LMAGE [mg/dl]", "HMAGE [mg/dl]", "MAGE [mg/dl]",
+                                    "MEAN [mg/dl]", "MV", "SD [mg/dl]",
+                                    "LPSTR [%]", "HPSTR [%]", "NPSTR [%]", "PSTR [%]")
+                        ylabel <- ylabel[position]
+
+                        u <- as.numeric(unclass(date.time))
+                        u <- u - min(u)
+                        y <- as.numeric(unclass(as.Date(as.character(x$date), format = "%Y/%m/%d")))
+                        y <- as.numeric(levels(as.factor(as.character(y))))
+                        y <- y - min(y)
+                        y <- 0:max(y)
+
+                        if(length(y) > 1) {
+
+                                position <- 0:round(max(u) / (60 * 60 * 24))
+
+                                z <- list()
+                                for(i in 1:length(position)) {
+
+                                        z[i] <- list(position[i])
+                                }
+
+                                names(z) <- 60 * 60 * 24 * position
+
+                                if(length(z) > 20) {
+
+                                        max <- length(z) + (10 - length(z)%%20)
+                                        position <- abs(floor(- length(z)/20))
+                                        if(position %% 2 != 0) {
+
+                                                position <- position + 1
+                                        }
+
+                                        position <- round(seq(1, max, position))
+
+                                }
+
+                                z <- z[position]
+
+                                if(col == FALSE) {
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                                                theme_classic() +
+                                                labs(x = "TIME [days]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                } else {
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.8), fill = factor(x$serie)) + geom_line(color = factor(x$color), size = 1) +
+                                                theme_classic() +
+                                                labs(x = "TIME [days]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                }
+
+                        } else {
+
+                                if(max(u) >= (60 * 60)) {
+
+                                        position <- 0:round(max(u) / (60 * 60))
+
+                                        z <- list()
+                                        for(i in 1:length(position)) {
+
+                                                z[i] <- list(position[i])
+                                        }
+
+                                        names(z) <- 60 * 60 * position
+
+                                        if(length(z) > 20) {
+
+                                                max <- length(z) + (10 - length(z)%%20)
+                                                position <- abs(floor(- length(z)/20))
+                                                if(position %% 2 != 0) {
+
+                                                        position <- position + 1
+                                                }
+
+                                                position <- round(seq(1, max, position))
+
+                                        }
+
+                                        z <- z[position]
+
+                                        g <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                                                theme_classic() +
+                                                labs(x = "TIME [hours]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                } else {
+
+                                        position <- 0:round(max(u) / (60))
+
+                                        z <- list()
+                                        for(i in 1:length(position)) {
+
+                                                z[i] <- list(position[i])
+                                        }
+
+                                        names(z) <- 60 * position
+
+                                        if(length(z) > 20) {
+
+                                                max <- length(z) + (10 - length(z)%%20)
+                                                position <- abs(floor(- length(z)/20))
+                                                if(position %% 2 != 0) {
+
+                                                        position <- position + 1
+                                                }
+
+                                                position <- round(seq(1, max, position))
+
+                                        }
+
+                                        z <- z[position]
+
+                                        glist[k] <- qplot(u, x[, var[k]], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                                                theme_classic() +
+                                                labs(x = "TIME [minutes]", y = ylabel)  +
+                                                scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
+                                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max)) +
+                                                theme(axis.text.x=element_text(size = 15), axis.text.y=element_text(size = 15)) +
+                                                theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
+                                                theme(legend.position="none") +
+                                                theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15))
+
+                                        glist[k] <- list(ggplotGrob(g))
+
+                                }
+
+                        }
+
+                }
+
+                g <- grid.arrange(glist[[1]], glist[[2]], glist[[3]], glist[[4]], ncol = 2)
+
+        }
+
+        suppressWarnings(plot(g))
+
+}
+

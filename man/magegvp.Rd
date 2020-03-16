@@ -15,20 +15,19 @@ magegvp(x, t = 24, n = 1)
 %
 \arguments{
 \item{x}{
-
 Data-set with data frame format containing three columns:
 
-date: date of the observation with format \emph{yyyy/mm/dd}.
+  date: date of the observation with format \emph{yyyy/mm/dd}.
 
-time: time of the observation with 24 hour format \emph{hh:mm:ss}.
+  time: time of the observation with 24 hour format \emph{hh:mm:ss}.
 
-glucose: glucose value of the observation in [mg/dl].
+  glucose: glucose value of the observation in [mg/dl].
 }
 \item{t}{
-Interval for calculating the measurement. Permitted values are 4, 6, 8, 12 and 24 hours. Default value of 24 hours.
+Numeric value with interval for calculating the measurement. Permitted values are 4, 6, 8, 12 and 24 hours. Default value of 24 hours.
 }
 \item{n}{
-Number of multiple values of standard deviation with default value of 1.
+Numeric value with number of multiple values of standard deviation. Default value of 1.
 }
 }
 %

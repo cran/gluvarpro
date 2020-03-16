@@ -127,13 +127,13 @@ magegvp <- function(x, t = 24, n = 1) {
                         diff.down <- diff[diff < 0]
                         diff.down <- diff.down[abs(diff.down) > n * sd]
 
-                        if(is.na(diff.down) || length(diff.down) == 0) {
+                        if(all(is.na(diff.down)) || length(diff.down) == 0) {
 
                                 diff.down <- 0
 
                         }
 
-                        if(is.na(diff.up) || length(diff.up) == 0) {
+                        if(all(is.na(diff.up)) || length(diff.up) == 0) {
 
                                 diff.up <- 0
 
@@ -143,8 +143,26 @@ magegvp <- function(x, t = 24, n = 1) {
                         x$hmage[position] <- round(mean(abs(diff.up), na.rm = TRUE), digits = 2)
                         x$mage[position] <- round(mean(c(x$hmage[position], abs(x$lmage[position])), na.rm = TRUE), digits = 2)
 
-                        if(length(diff.down) == 1 && diff.down == 0) diff.down <- NA
-                        if(length(diff.up) == 1 && diff.up == 0) diff.up <- NA
+                        if(length(diff.down) == 1) {
+
+                                if(diff.down == 0) {
+
+                                        diff.down <- NA
+
+                                }
+
+                        }
+
+                        if(length(diff.up) == 1) {
+
+                                if(diff.up == 0) {
+
+                                        diff.up <- NA
+
+                                }
+
+                        }
+
                         x$ge[position] <- sum(c(length(diff.up[!is.na(diff.up)]), length(diff.down[!is.na(diff.down)])), na.rm = TRUE)
 
                 }

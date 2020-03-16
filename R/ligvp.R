@@ -1,5 +1,5 @@
 
-ligvp <- function(x, t = 24, ts = 15) {
+ligvp <- function(x, t = 24, ts = 5) {
 
 
         if(dim(x)[1] == 0) {

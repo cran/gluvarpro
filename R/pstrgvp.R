@@ -113,9 +113,9 @@ pstrgvp <- function(x, t = 24, tdown = 70, tup = 180) {
 
                 if(!all(is.na(aux$glucose))) {
 
-                        x$lpstr[position] <- round((mean(length(aux$glucose[aux$glucose < tdown][!is.na(aux$glucose[aux$glucose < tdown])]) / dim(aux)[1], na.rm = TRUE) * 100), digits = 2)
-                        x$hpstr[position] <- round((mean(length(aux$glucose[aux$glucose > tup][!is.na(aux$glucose[aux$glucose > tup])]) / dim(aux)[1], na.rm = TRUE) * 100), digits = 2)
-                        x$npstr[position] <- round((mean(length(aux$glucose[aux$glucose >= tdown & aux$glucose <= tup][!is.na(aux$glucose[aux$glucose >= tdown & aux$glucose <= tup])]) / dim(aux)[1], na.rm = TRUE) * 100), digits = 2)
+                        x$lpstr[position] <- round((mean(length(aux$glucose[aux$glucose < tdown][!is.na(aux$glucose[aux$glucose < tdown])]) / dim(aux[!is.na(aux$glucose),])[1], na.rm = TRUE) * 100), digits = 2)
+                        x$hpstr[position] <- round((mean(length(aux$glucose[aux$glucose > tup][!is.na(aux$glucose[aux$glucose > tup])]) / dim(aux[!is.na(aux$glucose),])[1], na.rm = TRUE) * 100), digits = 2)
+                        x$npstr[position] <- round((mean(length(aux$glucose[aux$glucose >= tdown & aux$glucose <= tup][!is.na(aux$glucose[aux$glucose >= tdown & aux$glucose <= tup])]) / dim(aux[!is.na(aux$glucose),])[1], na.rm = TRUE) * 100), digits = 2)
                         x$pstr[position] <- round(mean(c(x$hpstr[position], x$lpstr[position]), na.rm = TRUE), digits = 2)
 
                 }

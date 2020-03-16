@@ -51,6 +51,18 @@ avggvp <- function(x, var = "glucose", sd = FALSE) {
 
         }
 
+        if(!is.logical(sd)){
+
+                stop("sd must be logical.")
+
+        }
+
+        if(sd != FALSE && sd != TRUE) {
+
+                stop("sd must be FALSE or TRUE.")
+
+        }
+
 
         # Calculate mean
         x.value <- mean(as.numeric(as.character(x[, var])), na.rm = T)

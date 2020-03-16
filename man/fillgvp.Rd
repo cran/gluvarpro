@@ -1,11 +1,11 @@
 \name{fillgvp}
 \alias{fillgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{fill glucose values from continuous glucose monitoring
+\title{fill missing glucose values from continuous glucose monitoring
 %%  ~~function to do ... ~~
 }
 \description{
-Generic functions for replacing NA values with interpolated values, performing linear or cubic spline interpolation of given data points.
+Generic function for replacing NA values (missing values) with interpolated values, performing linear or cubic spline interpolation of given data points.
 }
 %
 \usage{
@@ -16,13 +16,13 @@ fillgvp(x, method = "linear", n = 4)
 \item{x}{
 Data-set with data frame format containing one column:
 
-glucose: glucose value of the observation in [mg/dl].
+  glucose: glucose value of the observation.
 }
 \item{method}{
-Missing values (NAs) are replaced by linear interpolation via \emph{linear} or cubic spline interpolation via \emph{cubic}, respectively. Default value is \emph{linear}.
+Character value to replace missing values (NAs) by linear interpolation via \emph{linear} or cubic spline interpolation via \emph{cubic}, respectively. Default value is \emph{linear}.
 }
 \item{n}{
-Maximum number of consecutive NAs to fill. Any longer gaps will be left unchanged. Default value is 4.
+Numeric value with maximum number of consecutive NAs to fill. Any longer gaps will be left unchanged. Default value is 4.
 }
 }
 %

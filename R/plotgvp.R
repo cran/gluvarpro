@@ -1,5 +1,5 @@
 
-plotgvp <- function(x, col = "one", var = "glucose") {
+plotgvp <- function(x, col = FALSE, var = "glucose") {
 
 
         if(dim(x)[1] == 0) {
@@ -41,9 +41,15 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
         }
 
-        if(col != "one" && col != "multiple") {
+        if(!is.logical(col)){
 
-                stop("col must be one or multiple.")
+                stop("col must be logical.")
+
+        }
+
+        if(col != FALSE && col != TRUE) {
+
+                stop("col must be FALSE or TRUE.")
 
         }
 
@@ -71,11 +77,26 @@ plotgvp <- function(x, col = "one", var = "glucose") {
         t <- paste(t, "h", sep = "")
         x$serie <- NA
 
+        colors <- c("#80B1D3", "#B3DE69", "#FB8072", "#B3B3B3", "#8DD3C7", "#FDB462", "#BEBADA", "#1F78B4", "#BF812D", "#BC80BD", "#D53E4F")
+        x$color <- NA
+
         date <- levels(as.factor(as.character(x$date)))
+        j <- 1
         for(i in 1:length(date)) {
 
                 position <- which(x$date == date[i])
                 x$serie[position] <- as.numeric(i)
+                x$color[position] <- colors[j]
+
+                if(j == length(colors)) {
+
+                        j <- 1
+
+                } else {
+
+                        j <- j + 1
+
+                }
 
         }
 
@@ -115,6 +136,9 @@ plotgvp <- function(x, col = "one", var = "glucose") {
         y <- y - min(y)
         y <- 0:max(y)
 
+        y.plot.min <- floor(min(x[, var]))-floor(min(x[, var]))%%10
+        y.plot.max <- floor(max(x[, var]))+floor(min(x[, var]))%%10
+
         if(length(y) > 1) {
 
                 position <- 0:round(max(u) / (60 * 60 * 24))
@@ -142,7 +166,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
                 z <- z[position]
 
-                if(col == "one") {
+                if(col == FALSE) {
 
                         g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
                                 theme_classic() +
@@ -152,11 +176,11 @@ plotgvp <- function(x, col = "one", var = "glucose") {
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
-                                scale_y_continuous(breaks= pretty_breaks())
+                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max))
 
-                } else if(col == "multiple") {
+                } else {
 
-                        g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = factor(x$serie)) +
+                        g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = factor(x$color)) +
                                 theme_classic() +
                                 labs(x = "TIME [days]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
@@ -164,7 +188,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
-                                scale_y_continuous(breaks= pretty_breaks())
+                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max))
 
                 }
 
@@ -197,7 +221,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
                         z <- z[position]
 
-                        g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                        g <- qplot(u, x[, var], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
                                 theme_classic() +
                                 labs(x = "TIME [hours]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
@@ -205,7 +229,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
-                                scale_y_continuous(breaks= pretty_breaks())
+                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max))
 
                 } else {
 
@@ -234,7 +258,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
 
                         z <- z[position]
 
-                        g <- qplot(u, x[, var], data = x, geom = "point", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
+                        g <- qplot(u, x[, var], data = x, geom = "line", size = I(0.5), fill = factor(x$serie)) + geom_line(color = "blue") +
                                 theme_classic() +
                                 labs(x = "TIME [minutes]", y = ylabel)  +
                                 scale_x_continuous(breaks = as.numeric(names(z)), labels = z) +
@@ -242,7 +266,7 @@ plotgvp <- function(x, col = "one", var = "glucose") {
                                 theme(axis.text = element_text(size = 20), axis.title = element_text(size = 20)) +
                                 theme(legend.position="none") +
                                 theme(strip.text.x = element_text(size = 15), strip.text.y = element_text(size = 15)) +
-                                scale_y_continuous(breaks= pretty_breaks())
+                                scale_y_continuous(breaks= pretty_breaks(), limits=c(y.plot.min, y.plot.max))
 
                 }
 

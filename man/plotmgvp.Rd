@@ -1,5 +1,5 @@
-\name{mplotgvp}
-\alias{mplotgvp}
+\name{plotmgvp}
+\alias{plotmgvp}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{plot multiple glucose variability measures
 %%  ~~function to do ... ~~
@@ -9,24 +9,24 @@ Function for plotting given data points arranging multiple grobs on a draw.
 }
 %
 \usage{
-mplotgvp(x, col = "one", var = "auc")
+plotmgvp(x, col = FALSE, var = "auc")
 }
 %
 \arguments{
 \item{x}{
 Data-set with data frame format containing five or six columns:
 
-date: date of the observation with format \emph{yyyy/mm/dd}.
+  date: date of the observation with format \emph{yyyy/mm/dd}.
 
-time: time of the observation with 24 hour format \emph{hh:mm:ss}.
+  time: time of the observation with 24 hour format \emph{hh:mm:ss}.
 
-variability measure: glucose variability measure.
+  variability measure: glucose variability measure.
 }
 \item{col}{
-Color for plotting data points. If data-set contains more than one day, it can be selected different colors (\emph{multiple}) for each day of data or one color (\emph{one}). Default value is \emph{one} color.
+Logical value for plotting data points with different colours. If data-set contains more than one day, it can be selected different colors (TRUE) for each day of data or one color (FALSE). Default value is FALSE.
 }
 \item{var}{
-Variable for multiple plotting. Permitted values are \emph{auc}, \emph{bgi}, \emph{mage}, and \emph{pstr}. Default value is \emph{auc}.
+Character value with variable for plotting. Permitted values are \emph{auc}, \emph{bgi}, \emph{mage}, and \emph{pstr}. Default value is \emph{auc}.
 }
 }
 %
@@ -42,5 +42,5 @@ Sergio Contador.
 \examples{
 data("datagvp1")
 x <- aucgvp(datagvp1)
-mplotgvp(x)
+plotmgvp(x)
 }

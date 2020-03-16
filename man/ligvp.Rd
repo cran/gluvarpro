@@ -9,25 +9,24 @@ Lability index is a measure of glycemic variability that evaluates the metabolic
 }
 %
 \usage{
-ligvp(x, t = 24, ts = 15)
+ligvp(x, t = 24, ts = 5)
 }
 %
 \arguments{
 \item{x}{
-
 Data-set with data frame format containing three columns:
 
-date: date of the observation with format \emph{yyyy/mm/dd}.
+  date: date of the observation with format \emph{yyyy/mm/dd}.
 
-time: time of the observation with 24 hour format \emph{hh:mm:ss}.
+  time: time of the observation with 24 hour format \emph{hh:mm:ss}.
 
-glucose: glucose value of the observation in [mg/dl].
+  glucose: glucose value of the observation in [mg/dl].
 }
 \item{t}{
-Interval for calculating the measurement. Permitted values are 4, 6, 8, 12 and 24 hours. Default value of 24 hours.
+Numeric value with interval for calculating the measurement. Permitted values are 4, 6, 8, 12 and 24 hours. Default value of 24 hours.
 }
 \item{ts}{
-Sampling time of glucose values. Permitted values are 5 and 15 minutes. Default value of 15 minutes.
+Numeric value with sampling time of glucose values. Permitted values are 5 and 15 minutes. Default value of 5 minutes.
 }
 }
 %

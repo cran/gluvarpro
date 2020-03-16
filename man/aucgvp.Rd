@@ -16,20 +16,20 @@ aucgvp(x, t = 24, tdown = 70, tup = 180)
 \item{x}{
 Data-set with data frame format containing three columns:
 
-date: date of the observation with format \emph{yyyy/mm/dd}.
+  date: date of the observation with format \emph{yyyy/mm/dd}.
 
-time: time of the observation with 24 hour format \emph{hh:mm:ss}.
+  time: time of the observation with 24 hour format \emph{hh:mm:ss}.
 
-glucose: glucose value of the observation in [mg/dl].
+  glucose: glucose value of the observation in [mg/dl].
 }
 \item{t}{
-Interval for calculate measure. Permitted values are 4, 6, 8, 12 and 24 hours. Default value of 24 hours.
+Numeric value with interval for calculate measure. Permitted values are 4, 6, 8, 12 and 24 hours. Default value of 24 hours.
 }
 \item{tdown}{
-Target range low with default value of 70 [mg/dl].
+Numeric value with target range low. Default value of 70 [mg/dl].
 }
 \item{tup}{
-Target range high with default value of 180 [mg/dl].
+Numeric value with target range high. Default value of 180 [mg/dl].
 }
 }
 %
