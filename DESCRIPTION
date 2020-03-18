@@ -2,7 +2,7 @@ Package: gluvarpro
 Type: Package
 Title: Glucose Variability Measures from Continuous Glucose Monitoring
         Data
-Version: 3.0
+Version: 4.0
 Imports: ggplot2, graphics, gridExtra, pracma, scales, stats, tidyr,
         zoo
 Author: Sergio Contador
@@ -31,6 +31,6 @@ RoxygenNote: 6.1.1
 Depends: R (>= 2.10)
 LazyData: true
 NeedsCompilation: no
-Packaged: 2020-03-13 19:10:03 UTC; master
+Packaged: 2020-03-18 17:28:15 UTC; master
 Repository: CRAN
-Date/Publication: 2020-03-16 13:30:04 UTC
+Date/Publication: 2020-03-18 23:10:07 UTC

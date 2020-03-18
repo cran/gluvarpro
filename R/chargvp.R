@@ -58,7 +58,7 @@ chargvp <- function(x) {
         y$'Glucose.time.[54,70)' <- round(mean(pstrgvp(x, tdown = target.down2, tup = target.up2)$lpstr), digits = 2) -
                 round(mean(pstrgvp(x, tdown = target.down1, tup = target.up2)$lpstr), digits = 2)
         y$'Glucose.time.[70,180]' <- round(mean(pstrgvp(x, tdown = target.down2, tup = target.up2)$npstr), digits = 2)
-        y$'Glucose.time.[70,140]' <- round(mean(pstrgvp(x, tdown = target.down2, tup = target.up3)$npstr), digits = 2)
+        y$'Glucose.time.[70,140]' <- round(mean(pstrgvp(x, tdown = target.down2, tup = target.up1)$npstr), digits = 2)
         y$'Glucose.time.>180' <- round(mean(pstrgvp(x, tdown = target.down1, tup = target.up2)$hpstr), digits = 2)
         y$'Glucose.time.>250' <- round(mean(pstrgvp(x, tdown = target.down1, tup = target.up3)$hpstr), digits = 2)
 
