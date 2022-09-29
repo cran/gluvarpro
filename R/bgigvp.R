@@ -29,7 +29,7 @@ bgigvp <- function(x, t = 24) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -99,7 +99,7 @@ bgigvp <- function(x, t = 24) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         f <- 1.509 * ((log(as.numeric(as.character(aux$glucose))) ^ 1.084) - 5.381)
                         r <- 10 * (f ^ 2)

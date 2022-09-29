@@ -1,8 +1,7 @@
 
-magegvp <- function(x, t = 24, n = 1) {
+magegvp <- function (x, t = 24, n = 1, type = "auto") {
 
-
-        if(dim(x)[1] == 0) {
+        if (dim(x)[1] == 0) {
 
                 stop("Dimension of data-set must be higher than 0.")
 
@@ -10,61 +9,66 @@ magegvp <- function(x, t = 24, n = 1) {
 
         names <- c("date", "time", "glucose")
         names <- match(names, names(x))
-        if(any(is.na(names))) {
+        if (any(is.na(names))) {
 
                 stop("Names of data-set must be date, time and glucose.")
 
         }
 
-        if(any(is.na(as.character(x$date))) || any(is.na(as.character(x$time)))) {
+        if (any(is.na(as.character(x$date))) || any(is.na(as.character(x$time)))) {
 
                 stop("Variables date and time must be non-NA values.")
 
         }
 
         date.time <- as.POSIXct(paste(as.character(x$date), as.character(x$time)), format = "%Y/%m/%d %H:%M:%S")
-        if(any(is.na(date.time))) {
+        if (any(is.na(date.time))) {
 
                 stop("Variable date and time must have yyyy/mm/dd and hh:mm:ss format.")
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if (any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
         }
 
-        if(!is.numeric(x$glucose)) {
+        if (!is.numeric(x$glucose)) {
 
                 stop("Variable glucose must be numeric.")
 
         }
 
-        if(!is.numeric(t)) {
+        if (!is.numeric(t)) {
 
                 stop("t must be numeric.")
 
         }
 
-        if(all(t != c(4, 6, 8, 12, 24))) {
+        if (all(t != c(4, 6, 8, 12, 24))) {
 
                 stop("t must be 4, 6, 8, 12 or 24.")
 
         }
 
-        if(!is.numeric(n)) {
+        if (!is.numeric(n)) {
 
                 stop("n must be numeric.")
 
         }
 
-        if(n < 0) {
+        if (n < 0) {
 
                 stop("n must be a positive value.")
 
         }
 
+        if(all(type != c("auto", "nardin2peak", "peak2nardin"))) {
+
+                stop("type must be auto, nardin2peak or peak2nardin")
+
+        }
 
         xt <- data.frame(matrix(nrow = 24, ncol = 6))
         names(xt) <- c("hour", "4h", "6h", "8h", "12h", "24h")
@@ -79,20 +83,21 @@ magegvp <- function(x, t = 24, n = 1) {
         x$serie <- NA
 
         date <- levels(as.factor(as.character(x$date)))
-        for(i in 1:length(date)) {
+        for (i in 1:length(date)) {
 
                 position <- which(x$date == date[i])
+
                 x$serie[position] <- as.numeric(i)
 
         }
 
         hour <- separate(x, time, into = c("hour", "minutes", "seconds"), ":")
         hour <- as.numeric(hour$hour)
-        for(i in 1:length(hour)) {
+        for (i in 1:length(hour)) {
 
-                for(j in 0:23) {
+                for (j in 0:23) {
 
-                        if(hour[i] == j) {
+                        if (hour[i] == j) {
 
                                 x$serie[i] <- paste(x$serie[i], ".", xt[j + 1, t], sep = "")
 
@@ -105,99 +110,125 @@ magegvp <- function(x, t = 24, n = 1) {
 
         serie <- levels(as.factor(as.numeric(as.character(x$serie))))
 
-        x$ge <- x$lmage <- x$hmage <- x$mage <- 0
-        for(i in 1:length(serie)) {
+        x$ge <- x$mage <- 0
+        for (i in 1:length(serie)) {
 
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if (!any(is.na(aux$glucose))) {
 
                         sd <- round(sd(as.numeric(as.character(aux$glucose)), na.rm = TRUE), digits = 2)
+                        minmax <- c()
 
-                        diff <- c()
-                        for(j in 1:(dim(aux)[1] - 1)) {
+                        if(length(as.numeric(as.character(aux$glucose))) > 2) {
 
-                                diff <- c(diff, as.numeric(as.character(aux$glucose[j])) - as.numeric(as.character(aux$glucose[j + 1])))
+                                for(j in 1:(length(as.numeric(as.character(aux$glucose)))-2)) {
 
-                        }
+                                        sign1 <- sign(diff(c(as.numeric(as.character(aux$glucose[j])),as.numeric(as.character(aux$glucose[j+1])))))
+                                        sign2 <- sign(diff(c(as.numeric(as.character(aux$glucose[j+1])), as.numeric(as.character(aux$glucose[j+2])))))
 
-                        diff.up <- diff[diff >= 0]
-                        diff.up <- diff.up[abs(diff.up) > n * sd]
-                        diff.down <- diff[diff < 0]
-                        diff.down <- diff.down[abs(diff.down) > n * sd]
+                                        if(sign1 != sign2){
 
-                        if(all(is.na(diff.down)) || length(diff.down) == 0) {
+                                                minmax <- c(minmax, j+1)
+                                        }
 
-                                diff.down <- 0
+                                }
 
-                        }
+                                minmax <- c(1, minmax, length(as.numeric(as.character(aux$glucose))))
+                                odirection <- direction <- sign(diff(c(as.numeric(as.character(aux$glucose[minmax[1]])), as.numeric(as.character(aux$glucose[minmax[2]])))))
+                                lge <- hge <- ge <- lmage <- hmage <- mage <- 0
 
-                        if(all(is.na(diff.up)) || length(diff.up) == 0) {
+                                for(j in 1:(length(minmax)-1)) {
 
-                                diff.up <- 0
+                                        difference <- diff(c(as.numeric(as.character(aux$glucose[minmax[j]])), as.numeric(as.character(aux$glucose[minmax[j+1]]))))
 
-                        }
+                                        if(abs(difference) > sd) {
 
-                        x$lmage[position] <- round(mean(abs(diff.down), na.rm = TRUE), digits = 2)
-                        x$hmage[position] <- round(mean(abs(diff.up), na.rm = TRUE), digits = 2)
-                        x$mage[position] <- round(mean(c(x$hmage[position], abs(x$lmage[position])), na.rm = TRUE), digits = 2)
+                                                if(direction > 0) {
 
-                        if(length(diff.down) == 1) {
+                                                        hmage <- hmage + round(abs(difference), digits = 2)
+                                                        hge <- hge + 1
+                                                        direction <- -1
 
-                                if(diff.down == 0) {
+                                                        if(odirection > 0) {
 
-                                        diff.down <- NA
+                                                                mage <- mage + round(abs(difference), digits = 2)
+                                                                ge <- ge + 1
+
+                                                        }
+
+                                                } else {
+
+                                                        lmage <- lmage + round(abs(difference), digits = 2)
+                                                        lge <- lge + 1
+                                                        direction <- 1
+
+                                                        if(odirection < 0) {
+
+                                                                mage <- mage + round(abs(difference), digits = 2)
+                                                                ge <- ge + 1
+
+                                                        }
+
+                                                }
+
+                                        } else {
+
+                                                if(direction > 0) {
+
+                                                        direction <- -1
+
+                                                } else {
+
+                                                        direction <- 1
+
+                                                }
+
+                                        }
+
+                                }
+
+                                if(type == "auto") {
+
+                                        x$ge[position] <- ge
+                                        x$mage[position] <- round(mage / ge, digits = 2)
+
+                                } else if (type == "nardin2peak") {
+
+                                        x$ge[position] <- hge
+                                        x$mage[position] <- round(hmage / hge, digits = 2)
+
+                                } else {
+
+                                        x$ge[position] <- lge
+                                        x$mage[position] <- round(lmage / lge, digits = 2)
 
                                 }
 
                         }
-
-                        if(length(diff.up) == 1) {
-
-                                if(diff.up == 0) {
-
-                                        diff.up <- NA
-
-                                }
-
-                        }
-
-                        x$ge[position] <- sum(c(length(diff.up[!is.na(diff.up)]), length(diff.down[!is.na(diff.down)])), na.rm = TRUE)
 
                 }
 
         }
 
-        if(any(is.na(x$lmage))) {
-
-                position <- is.na(x$lmage)
-                x$lmage[position] <- 0
-
-        }
-
-        if(any(is.na(x$hmage))) {
-
-                position <- is.na(x$hmage)
-                x$hmage[position] <- 0
-
-        }
-
-        if(any(is.na(x$ge))) {
+        if (any(is.na(x$ge))) {
 
                 position <- is.na(x$ge)
+
                 x$ge[position] <- 0
 
         }
 
-        if(any(is.na(x$mage))) {
+        if (any(is.na(x$mage))) {
 
                 position <- is.na(x$mage)
+
                 x$mage[position] <- 0
 
         }
 
-        x <- x[,-which(names(x) == "serie")]
+        x <- x[, -which(names(x) == "serie")]
 
         return(x)
 

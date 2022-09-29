@@ -43,7 +43,7 @@ Sergio Contador.
 %
 \references{
 C.M. McDonnell, S.M. Donath, S.I. Vidmar, G.A. Werther, and F.J. Cameron. A novel approach to
-continuous glucose analysis utilizing glycemic variation. Diabetes Technology \& Therapeutics, 7(2):253–263, 2005.
+continuous glucose analysis utilizing glycemic variation. Diabetes Technology and Therapeutics, 7(2):253–263, 2005.
 }
 %
 \examples{

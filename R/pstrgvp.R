@@ -29,7 +29,7 @@ pstrgvp <- function(x, t = 24, tdown = 70, tup = 180) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -111,7 +111,7 @@ pstrgvp <- function(x, t = 24, tdown = 70, tup = 180) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         x$lpstr[position] <- round((mean(length(aux$glucose[aux$glucose < tdown][!is.na(aux$glucose[aux$glucose < tdown])]) / dim(aux[!is.na(aux$glucose),])[1], na.rm = TRUE) * 100), digits = 2)
                         x$hpstr[position] <- round((mean(length(aux$glucose[aux$glucose > tup][!is.na(aux$glucose[aux$glucose > tup])]) / dim(aux[!is.na(aux$glucose),])[1], na.rm = TRUE) * 100), digits = 2)

@@ -29,7 +29,7 @@ unitsgvp <- function(x) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 

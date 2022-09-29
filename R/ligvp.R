@@ -29,7 +29,7 @@ ligvp <- function(x, t = 24, ts = 5) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -112,7 +112,7 @@ ligvp <- function(x, t = 24, ts = 5) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         aux <- aux[seq(1, dim(aux)[1], n), ]
 

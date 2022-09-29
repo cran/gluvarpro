@@ -29,7 +29,7 @@ iqrgvp <- function(x, t = 24) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -99,7 +99,7 @@ iqrgvp <- function(x, t = 24) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         x$iqr[position] <- round(IQR(as.numeric(as.character(aux$glucose)), na.rm = TRUE), digits = 2)
 

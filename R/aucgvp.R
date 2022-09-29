@@ -29,7 +29,7 @@ aucgvp <- function(x, t = 24, tdown = 70, tup = 180) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -111,7 +111,7 @@ aucgvp <- function(x, t = 24, tdown = 70, tup = 180) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         u <- as.numeric(as.character(row.names(aux)[aux$glucose < tdown]))
                         y <- as.numeric(as.character(aux$Glucosa.free[aux$glucose < tdown]))

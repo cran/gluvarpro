@@ -29,12 +29,6 @@ strgvp <- function(x) {
 
         }
 
-        if(all(is.na(x$glucose))) {
-
-                stop("Variable glucose must be non-NA value.")
-
-        }
-
         if(!is.numeric(x$glucose)) {
 
                 stop("Variable glucose must be numeric.")

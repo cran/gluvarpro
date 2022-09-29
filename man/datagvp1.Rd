@@ -19,7 +19,7 @@ data("datagvp1")
 % \end{Arguments}
 %
 \details{
-Data-set with 6 complete days of data acquired with sampling time of 15 minutes. There are 576 observations in total, 7 with NA values of glucose.
+Data-set with 6 complete days of data acquired with sampling time of 15 minutes. There are 576 observations in total.
 }
 %
 \format{

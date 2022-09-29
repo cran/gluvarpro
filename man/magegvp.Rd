@@ -10,7 +10,7 @@ that are in hypoglycemic and hyperglycemic values. It is based on the number of 
 }
 %
 \usage{
-magegvp(x, t = 24, n = 1)
+magegvp(x, t = 24, n = 1, type = "auto")
 }
 %
 \arguments{
@@ -29,10 +29,13 @@ Numeric value with interval for calculating the measurement. Permitted values ar
 \item{n}{
 Numeric value with number of multiple values of standard deviation. Default value of 1.
 }
+\item{type}{
+Character value with type of mage calculation. Permitted values are \emph{auto}, \emph{nardin2peak} and \emph{peak2nardin}. Default value is \emph{auto}.
+}
 }
 %
 \value{
-A data frame containing the number of glycemic excursions ge, lmage, hmage and mage values.
+A data frame containing the number of glycemic excursions ge and mage values.
 }
 %
 \author{
@@ -40,9 +43,7 @@ Sergio Contador.
 }
 %
 \references{
-Seniz Sevimer Tuncan, Mehmet Uzunlulu, Ozge telci caklili, Hasan Huseyin Mutlu, and Aytekin Oguz.
-Evaluation of the glycemic fluctuation as defined as the mean amplitude of glycemic excursion in hospitalized
-patients with type 2 diabetes. 1, 11 2016.
+F. John Service, George D. Molnar, John W. Rosevear, Eugene Ackerman, Leal C. Gatewood, William F. Taylor. Mean Amplitude of Glycemic Excursions, a Measure of Diabetic Instability. Diabetes. Vol 9, N 19, 1970.
 }
 %
 \examples{

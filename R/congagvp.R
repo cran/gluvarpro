@@ -29,7 +29,7 @@ congagvp <- function(x, t = 24, ts = 5, h = 1) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -125,7 +125,7 @@ congagvp <- function(x, t = 24, ts = 5, h = 1) {
                 aux <- x[position, ]
 
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         CONGA <- c()
                         for(j in n:dim(aux)[1]) {

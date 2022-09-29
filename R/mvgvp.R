@@ -29,7 +29,7 @@ mvgvp <- function(x, t = 24, gi = 120) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -111,7 +111,7 @@ mvgvp <- function(x, t = 24, gi = 120) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         n <- dim(aux[!is.na(aux$glucose),])[1]
 

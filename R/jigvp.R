@@ -29,7 +29,7 @@ jigvp <- function(x, t = 24) {
 
         }
 
-        if(all(is.na(x$glucose))) {
+        if(any(is.na(x$glucose))) {
 
                 stop("Variable glucose must be non-NA value.")
 
@@ -99,7 +99,7 @@ jigvp <- function(x, t = 24) {
                 position <- which(x$serie == serie[i])
                 aux <- x[position, ]
 
-                if(!all(is.na(aux$glucose))) {
+                if(!any(is.na(aux$glucose))) {
 
                         x$ji[position] <- round((0.001 * (mean(as.numeric(as.character(aux$glucose)), na.rm = TRUE) + sd(as.numeric(as.character(aux$glucose)), na.rm = TRUE)) ^ 2), digits = 2)
 

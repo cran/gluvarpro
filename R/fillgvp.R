@@ -16,12 +16,6 @@ fillgvp <- function(x, method = "linear", n = 4) {
 
         }
 
-        if(all(is.na(x$glucose))) {
-
-                stop("Variable glucose must be non-NA value.")
-
-        }
-
         if(!is.numeric(x$glucose)) {
 
                 stop("Variable glucose must be numeric.")
