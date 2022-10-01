@@ -59,9 +59,9 @@ mvgvp <- function(x, t = 24, gi = 120) {
 
         }
 
-        if(gi < 0) {
+        if(gi <= 0) {
 
-                stop("gi must be a positive values.")
+                stop("gi must be positive values.")
 
         }
 

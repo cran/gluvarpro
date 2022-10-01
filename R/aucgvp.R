@@ -59,7 +59,7 @@ aucgvp <- function(x, t = 24, tdown = 70, tup = 180) {
 
         }
 
-        if(tdown < 0 || tup < 0) {
+        if(tdown <= 0 || tup <= 0) {
 
                 stop("tdown and tup must be positive values.")
 

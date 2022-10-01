@@ -58,9 +58,9 @@ magegvp <- function (x, t = 24, n = 1, type = "auto") {
 
         }
 
-        if (n < 0) {
+        if (n <= 0) {
 
-                stop("n must be a positive value.")
+                stop("n must be positive values.")
 
         }
 
@@ -118,7 +118,7 @@ magegvp <- function (x, t = 24, n = 1, type = "auto") {
 
                 if (!any(is.na(aux$glucose))) {
 
-                        sd <- round(sd(as.numeric(as.character(aux$glucose)), na.rm = TRUE), digits = 2)
+                        sd <- round(sd(as.numeric(as.character(aux$glucose)) * n, na.rm = TRUE), digits = 2)
                         minmax <- c()
 
                         if(length(as.numeric(as.character(aux$glucose))) > 2) {
@@ -192,17 +192,44 @@ magegvp <- function (x, t = 24, n = 1, type = "auto") {
                                 if(type == "auto") {
 
                                         x$ge[position] <- ge
-                                        x$mage[position] <- round(mage / ge, digits = 2)
+
+                                        if(mage == 0) {
+
+                                                x$mage[position] <- 0
+
+                                        } else {
+
+                                                x$mage[position] <- round(mage / ge, digits = 2)
+
+                                        }
 
                                 } else if (type == "nardin2peak") {
 
                                         x$ge[position] <- hge
-                                        x$mage[position] <- round(hmage / hge, digits = 2)
+
+                                        if(hmage == 0) {
+
+                                                x$mage[position] <- 0
+
+                                        } else {
+
+                                                x$mage[position] <- round(hmage / hge, digits = 2)
+
+                                        }
 
                                 } else {
 
                                         x$ge[position] <- lge
-                                        x$mage[position] <- round(lmage / lge, digits = 2)
+
+                                        if(lmage == 0) {
+
+                                                x$mage[position] <- 0
+
+                                        } else {
+
+                                                x$mage[position] <- round(lmage / lge, digits = 2)
+
+                                        }
 
                                 }
 

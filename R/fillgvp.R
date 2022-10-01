@@ -34,7 +34,7 @@ fillgvp <- function(x, method = "linear", n = 4) {
 
         }
 
-        if(n < 0) {
+        if(n <= 0) {
 
                 stop("n must be positive values.")
 

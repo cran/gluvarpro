@@ -27,19 +27,19 @@ preprocessgvp <- function(x, dp = 2, tp = 3, gp = 31, ts = 5, df = "yyyy/mm/dd",
 
         }
 
-        if(dp < 0) {
+        if(dp <= 0) {
 
                 stop("dp must be positive values.")
 
         }
 
-        if(tp < 0) {
+        if(tp <= 0) {
 
                 stop("tp must be positive values.")
 
         }
 
-        if(gp < 0) {
+        if(gp <= 0) {
 
                 stop("gp must be positive values.")
 
